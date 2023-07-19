@@ -216,7 +216,7 @@ class ChatChannel(Channel):
                     reply.type = ReplyType.ERROR
                     reply.content = "不支持发送的消息类型: " + str(reply.type)
 
-                if reply.type == ReplyType.TEXT:
+                if reply.type == ReplyType.TEXT or reply.type == ReplyType.ERROR or reply.type == ReplyType.INFO:
                     reply_text = reply.content
                     if desire_rtype == ReplyType.VOICE and ReplyType.VOICE not in self.NOT_SUPPORT_REPLYTYPE:
                         reply = super().build_text_to_voice(reply.content)
@@ -227,8 +227,8 @@ class ChatChannel(Channel):
                     else:
                         reply_text = conf().get("single_chat_reply_prefix", "") + reply_text + conf().get("single_chat_reply_suffix", "")
                     reply.content = reply_text
-                elif reply.type == ReplyType.ERROR or reply.type == ReplyType.INFO:
-                    reply.content = "[" + str(reply.type) + "]\n" + reply.content
+                # elif reply.type == ReplyType.ERROR or reply.type == ReplyType.INFO:
+                #    reply.content = "[" + str(reply.type) + "]\n" + reply.content
                 elif reply.type == ReplyType.IMAGE_URL or reply.type == ReplyType.VOICE or reply.type == ReplyType.IMAGE:
                     pass
                 else:
